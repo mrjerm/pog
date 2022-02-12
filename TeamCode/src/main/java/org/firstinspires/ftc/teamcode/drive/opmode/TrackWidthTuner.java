@@ -68,12 +68,13 @@ public class TrackWidthTuner extends LinearOpMode {
             }
 
             double trackWidth = DriveConstants.TRACK_WIDTH * Math.toRadians(ANGLE) / headingAccumulator;
+            telemetry.addData("pizza", trackWidth);
+            telemetry.update();
             trackWidthStats.add(trackWidth);
 
             sleep(DELAY);
         }
 
-        telemetry.clearAll();
         telemetry.addLine("Tuning complete");
         telemetry.addLine(Misc.formatInvariant("Effective track width = %.2f (SE = %.3f)",
                 trackWidthStats.getMean(),
