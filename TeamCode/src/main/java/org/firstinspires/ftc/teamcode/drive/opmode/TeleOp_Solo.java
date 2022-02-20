@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+//toes
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 public class TeleOp_Solo extends OpMode {
 
