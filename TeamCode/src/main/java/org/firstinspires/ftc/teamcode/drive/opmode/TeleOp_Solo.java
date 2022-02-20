@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.DR4B_Rest;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawClosePos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawOpenPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawRestPos;
+import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL3;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSpeedLimit;
 import static org.firstinspires.ftc.teamcode.drive.Constants.odometerDownPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.odometerUpPos;
@@ -181,15 +182,62 @@ public class TeleOp_Solo extends OpMode {
     public void loop() {
         liftOdometers();
         drive(slomo);
-        intek(gamepad2.right_bumper, gamepad2.left_bumper);
-        ducky(gamepad1.left_bumper, gamepad1.right_bumper);
-        lifty(gamepad2.dpad_up, gamepad2.dpad_down);
-        slidey(gamepad2.left_stick_y);
-        grabby(gamepad2.left_trigger, gamepad2.right_trigger, gamepad2.x);
+        intek(gamepad1.right_bumper, gamepad1.left_bumper);
+        ducky(gamepad1.dpad_left, gamepad1.dpad_right);
+        grabby(gamepad1.left_trigger, gamepad1.right_trigger);
         setSlomo(gamepad1.a, gamepad1.y);
-        midPiece(gamepad1.x);
-        switchLiftMode(gamepad1.b);
+        isFreightInGrabber();
+        extend(isFreightInGrabber());
         closey();
+    }
+
+    public boolean isFreightInGrabber (){
+        if (colorSensor.red() > 400){
+            freightDetected = true;
+        }
+        if (colorSensor.red() < 400){
+            freightDetected = false;
+        }
+        return freightDetected;
+    }
+
+    public void extend (boolean freightInGrabber) {
+        if (freightInGrabber){
+            intake.setPower(-0.8);
+            timer = getRuntime();
+            while (getRuntime() - timer <= 0.3){
+                drive(slomo);
+                if (gamepad1.x){
+                    break;
+                }
+            }
+            liftState = LiftState.HIGH;
+            clawState = ClawState.CLAW_ClOSE;
+            timer = getRuntime();
+            while (getRuntime() - timer <= 0.7){
+                drive(slomo);
+                if (gamepad1.x){
+                    break;
+                }
+            }
+            setHorizontalSlide(horizontalSlideL3, 1);
+        }
+    }
+
+    public void retract (boolean keybind) {
+        if (keybind) {
+            clawState = ClawState.CLAW_REST;
+            setHorizontalSlide(0, 0.8);
+            timer = getRuntime();
+            while (getRuntime() - timer <= 0.8){
+                drive(slomo);
+            }
+        }
+    }
+    public void setHorizontalSlide(int position, double power){
+        horizontalSlide.setTargetPosition(position);
+        horizontalSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        horizontalSlide.setPower(power);
     }
 
     public void closey(){
@@ -292,58 +340,37 @@ public class TeleOp_Solo extends OpMode {
         DR4BServo.setPosition(position);
     }
 
-    public void slidey(double keybind){
-        horizontalSlidePower = -keybind;
-        horizontalSlide.setPower(horizontalSlidePower * horizontalSpeedLimit);
-        /**TODO: Add an encoder onto the horizontal slide
-         */
+    public void slidey(boolean forward, boolean backward){
+        if (forward) {
+            horizontalSlide.setPower(horizontalSpeedLimit * 0.7);
+        }
+        if (backward) {
+            horizontalSlide.setPower(-1 * horizontalSpeedLimit * 0.7);
+        }
     }
 
     public void intek(boolean forward, boolean reverse){
         if (forward){
             intake.setPower(0.8);
-            if (colorSensor.red() > 400){
-                freightDetected = true;
-            }
-            if (colorSensor.red() < 400){
-                freightDetected = false;
-            }
-            if (freightDetected){
-                intake.setPower(-0.8);
-                timer = getRuntime();
-                while (getRuntime() - timer <= 0.3){
-                    drive(slomo);
-                }
-                liftState = LiftState.HIGH;
-                clawState = ClawState.CLAW_ClOSE;
-            }
         }
-
         if (reverse){
             intake.setPower(-0.8);
         }
         if (!forward && !reverse){
             intake.setPower(0);
         }
-
-        telemetry.addData("red value", colorSensor.red());
-        telemetry.addData("freight detected?", freightDetected);
-        telemetry.update();
     }
 
     public void setClawServo(double position) {
         clawServo.setPosition(position);
     }
 
-    public void grabby(double open, double close, boolean rest) {
+    public void grabby(double open, double close) {
         if (open != 0) {
             clawState = ClawState.CLAW_OPEN;
         }
         if (close != 0) {
             clawState = ClawState.CLAW_ClOSE;
-        }
-        if (rest) {
-            clawState = ClawState.CLAW_REST;
         }
 
         switch (clawState){
