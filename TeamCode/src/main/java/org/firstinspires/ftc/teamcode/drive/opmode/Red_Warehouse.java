@@ -178,7 +178,7 @@ public class Red_Warehouse extends LinearOpMode {
                             setDR4BServo(DR4B_Low);
                         }
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-7.7, -27.9, Math.toRadians(273.36816))) //go to shipping hub
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -199,18 +199,18 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                         setDR4BServo(DR4B_Rest);
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go to barrier
+                    .lineToLinearHeading(new Pose2d(4.2, -47.8, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //align with barrier
+                    .lineToLinearHeading(new Pose2d(4.2, -55.6, 0)) //align with barrier
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(41.4, -54.4, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go out of warehouse
+                    .lineToLinearHeading(new Pose2d(2.8, -55.2, 0)) //go out of warehouse
 
                     .addDisplacementMarker(() -> {
                         setDR4BServo(DR4B_High);
@@ -218,7 +218,7 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                         setHorizontalSlide(horizontalSlideL3, 1);
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-9, -25.6, Math.toRadians(273.36816))) //go to shipping hub
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -232,9 +232,15 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                         setDR4BServo(DR4B_Rest);
                     })
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go to barrier
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //go into warehouse
-                    .lineToLinearHeading(new Pose2d(0, 0, 0)) //move diagonal to park
+                    .lineToLinearHeading(new Pose2d(6.3, -55, 0)) //go to barrier
+                    .addDisplacementMarker(() -> {
+                        intake.setPower(0.8);
+                    })
+                    .lineToLinearHeading(new Pose2d(29.3, -54.2, 0)) //go into warehouse
+                    .addDisplacementMarker(() -> {
+                        intake.setPower(0);
+                    })
+                    .lineToLinearHeading(new Pose2d(50, -29, 0)) //move diagonal to park
                     .build();
         }
     }
