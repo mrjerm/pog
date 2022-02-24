@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
-public class TeleOp_ColorSensor_States extends OpMode {
+public class TeleOp_Alliance extends OpMode {
 
     public DcMotorEx frontLeft;
     public DcMotorEx backLeft;
