@@ -193,7 +193,7 @@ public class TeleOp_Shared extends OpMode {
     }
 
     public void closey(){
-        if (liftState == LiftState.LOW || liftState == LiftState.REST){
+        if (liftState == LiftState.REST){
             clawState = ClawState.CLAW_REST;
         }
     }
@@ -314,7 +314,7 @@ public class TeleOp_Shared extends OpMode {
                 while (getRuntime() - timer <= 0.3){
                     drive(slomo);
                 }
-                liftState = LiftState.HIGH;
+                liftState = LiftState.MID;
                 clawState = ClawState.CLAW_ClOSE;
             }
         }
