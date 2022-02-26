@@ -36,7 +36,6 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 import java.util.List;
 
@@ -179,7 +178,18 @@ public class Red_Warehouse extends LinearOpMode {
                             setDR4BServo(DR4B_Low);
                         }
                     })
-                    .lineToLinearHeading(new Pose2d(-7.7, -27.9, Math.toRadians(290))) //go to shipping hub
+                    .addTemporalMarker(1.1, () -> {
+                        if (dropLevel == 1){
+                            setHorizontalSlide(horizontalSlideL1, 1);
+                        }
+                        if (dropLevel == 2){
+                            setHorizontalSlide(horizontalSlideL2, 1);
+                        }
+                        if (dropLevel == 3){
+                            setHorizontalSlide(horizontalSlideL3, 0.8);
+                        }
+                    })
+                    .lineToLinearHeading(new Pose2d(-7.7, -27.9, Math.toRadians(280))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -211,25 +221,70 @@ public class Red_Warehouse extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(41.4, -54.4, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(41, -55.6, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(2.8, -55.2, 0)) //go out of warehouse
+                    .lineToLinearHeading(new Pose2d(2.8, -55.6, 0)) //go out of warehouse
                     .addDisplacementMarker(() -> {
                         setDR4BServo(DR4B_High);
                         intake.setPower(0);
                     })
-                    .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
-                        setHorizontalSlide(horizontalSlideL3, 1);
+                    .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                        setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(-9, -25.6, Math.toRadians(290))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-9, -29, Math.toRadians(280))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
+            TrajectorySequence traj2part2 = drive.trajectorySequenceBuilder(traj2.end())
+                    .waitSeconds(0.7)
+
+                    .addDisplacementMarker(() -> {
+                        if (dropLevel == 1){
+                            setHorizontalSlide(horizontalSlideClear, 1);
+                        }
+                        if (dropLevel == 2 || dropLevel == 3){
+                            setHorizontalSlide(0, 1);
+                        }
+                    })
+                    .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                        clawServo.setPosition(clawRestPos);
+                        setDR4BServo(DR4B_Mid);
+                    })
+                    .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
+                        setHorizontalSlide(0, 1);
+                    })
+                    .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
+                        setDR4BServo(DR4B_Rest);
+                    })
+                    .lineToLinearHeading(new Pose2d(4.2, -47.8, 0)) //go to barrier
+
+                    .lineToLinearHeading(new Pose2d(4.2, -55.6, 0)) //align with barrier
+                    .addDisplacementMarker(() -> {
+                        intake.setPower(0.8);
+                    })
+                    .lineToLinearHeading(new Pose2d(45, -55.6, 0)) //go into warehouse
+                    .addDisplacementMarker(() -> {
+                        clawServo.setPosition(clawClosePos);
+                        intake.setPower(-0.8);
+                    })
+                    .lineToLinearHeading(new Pose2d(2.8, -55.6, 0)) //go out of warehouse
+                    .addDisplacementMarker(() -> {
+                        setDR4BServo(DR4B_High);
+                        intake.setPower(0);
+                    })
+                    .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                        setHorizontalSlide(horizontalSlideL3, 1);
+                    })
+                    .lineToLinearHeading(new Pose2d(-9, -29.5, Math.toRadians(280))) //go to shipping hub
+                    .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                        clawServo.setPosition(clawOpenPos);
+                    })
+                    .build();
+            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2part2.end())
                     .waitSeconds(0.7)
                     .addDisplacementMarker(() -> {
                         setHorizontalSlide(0, 1);
@@ -246,15 +301,21 @@ public class Red_Warehouse extends LinearOpMode {
                     })
                     .lineToLinearHeading(new Pose2d(29.3, -54.2, 0)) //go into warehouse
 
-                    .lineToLinearHeading(new Pose2d(29.3, -29, 0))
+                    .lineToLinearHeading(new Pose2d(29.3, -31, 0),
+                            SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .addDisplacementMarker(() -> {
                         intake.setPower(0);
                     })
-                    .lineToLinearHeading(new Pose2d(50, -29, 0))
+                    .lineToLinearHeading(new Pose2d(50, -29, 0),
+                            SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
                     .build();
+
             drive.followTrajectorySequence(driveTraj);
             drive.followTrajectorySequence(traj2);
+            drive.followTrajectorySequence(traj2part2);
             drive.followTrajectorySequence(traj3);
         }
     }

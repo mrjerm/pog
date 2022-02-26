@@ -187,7 +187,8 @@ public class Red_Duck extends LinearOpMode {
 
             TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
                     //go to shipping hub
-                    .lineToLinearHeading(new Pose2d(-25, -24.5, Math.toRadians(220.59)))
+                    .lineToLinearHeading(new Pose2d(-55, -13, Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(-25, -13, Math.toRadians(175)))
                     .build();
 
            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
@@ -211,7 +212,8 @@ public class Red_Duck extends LinearOpMode {
                            setHorizontalSlide(0, 1);
                        }
                    })
-                   .lineToLinearHeading(new Pose2d(-70.9, -22.4, Math.toRadians(0)))
+                   .lineToLinearHeading(new Pose2d(-71.7, -8, Math.toRadians(0)))
+                   .lineToLinearHeading(new Pose2d(-71.7, -25.8, Math.toRadians(0)))
                    .build();
 
             drive.followTrajectorySequence(traj1);
