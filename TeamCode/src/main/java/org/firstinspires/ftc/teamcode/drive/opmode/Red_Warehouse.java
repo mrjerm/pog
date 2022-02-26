@@ -189,7 +189,7 @@ public class Red_Warehouse extends LinearOpMode {
                             setHorizontalSlide(horizontalSlideL3, 0.8);
                         }
                     })
-                    .lineToLinearHeading(new Pose2d(-7.7, -27.9, Math.toRadians(280))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -234,8 +234,8 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(-9, -29, Math.toRadians(280))) //go to shipping hub
-                    .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
+                    .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
@@ -277,10 +277,10 @@ public class Red_Warehouse extends LinearOpMode {
                         intake.setPower(0);
                     })
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                        setHorizontalSlide(horizontalSlideL3, 1);
+                        setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(-9, -29.5, Math.toRadians(280))) //go to shipping hub
-                    .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
+                    .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
@@ -296,17 +296,13 @@ public class Red_Warehouse extends LinearOpMode {
                         setDR4BServo(DR4B_Rest);
                     })
                     .lineToLinearHeading(new Pose2d(6.3, -55, 0)) //go to barrier
-                    .addDisplacementMarker(() -> {
-                        intake.setPower(0.8);
-                    })
+
                     .lineToLinearHeading(new Pose2d(29.3, -54.2, 0)) //go into warehouse
 
                     .lineToLinearHeading(new Pose2d(29.3, -31, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .addDisplacementMarker(() -> {
-                        intake.setPower(0);
-                    })
+
                     .lineToLinearHeading(new Pose2d(50, -29, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))

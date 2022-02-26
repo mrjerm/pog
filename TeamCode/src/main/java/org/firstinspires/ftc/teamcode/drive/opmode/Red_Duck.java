@@ -212,8 +212,8 @@ public class Red_Duck extends LinearOpMode {
                            setHorizontalSlide(0, 1);
                        }
                    })
-                   .lineToLinearHeading(new Pose2d(-71.7, -8, Math.toRadians(0)))
-                   .lineToLinearHeading(new Pose2d(-71.7, -25.8, Math.toRadians(0)))
+                   .lineToLinearHeading(new Pose2d(-70, -8, Math.toRadians(0)))
+                   .lineToLinearHeading(new Pose2d(-70, -28, Math.toRadians(0)))
                    .build();
 
             drive.followTrajectorySequence(traj1);
