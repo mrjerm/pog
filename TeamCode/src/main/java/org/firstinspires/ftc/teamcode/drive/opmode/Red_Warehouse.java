@@ -297,9 +297,9 @@ public class Red_Warehouse extends LinearOpMode {
                     })
                     .lineToLinearHeading(new Pose2d(6.3, -55, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(29.3, -54.2, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(35, -54.2, 0)) //go into warehouse
 
-                    .lineToLinearHeading(new Pose2d(29.3, -31, 0),
+                    .lineToLinearHeading(new Pose2d(35, -31, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 

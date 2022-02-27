@@ -189,7 +189,7 @@ public class Blue_Warehouse extends LinearOpMode {
                             setHorizontalSlide(horizontalSlideL3, 0.8);
                         }
                     })
-                    .lineToLinearHeading(new Pose2d(1, 25, Math.toRadians(30))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -234,7 +234,7 @@ public class Blue_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(1, 25, Math.toRadians(30))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -279,7 +279,7 @@ public class Blue_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(1, 25, Math.toRadians(30))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -297,9 +297,9 @@ public class Blue_Warehouse extends LinearOpMode {
                     })
                     .lineToLinearHeading(new Pose2d(6.3, 57, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(29.3, 54.2, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(35, 54.2, 0)) //go into warehouse
 
-                    .lineToLinearHeading(new Pose2d(29.3, 31, 0),
+                    .lineToLinearHeading(new Pose2d(35, 31, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
