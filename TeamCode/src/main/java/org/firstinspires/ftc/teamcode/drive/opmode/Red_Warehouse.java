@@ -189,7 +189,7 @@ public class Red_Warehouse extends LinearOpMode {
                             setHorizontalSlide(horizontalSlideL3, 0.8);
                         }
                     })
-                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, -26, Math.toRadians(313.9809))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -234,7 +234,7 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, -26, Math.toRadians(313.9809))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
@@ -279,7 +279,7 @@ public class Red_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(1, -25, Math.toRadians(330))) //go to shipping hub
+                    .lineToLinearHeading(new Pose2d(-1.52, -26, Math.toRadians(313.9809))) //go to shipping hub
                     .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })

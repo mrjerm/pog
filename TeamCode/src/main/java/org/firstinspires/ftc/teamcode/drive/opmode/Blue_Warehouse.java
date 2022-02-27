@@ -138,17 +138,17 @@ public class Blue_Warehouse extends LinearOpMode {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
                     if (updatedRecognitions.isEmpty()) {
-                        dropLevel = 3;
+                        dropLevel = 1;
                         telemetry.addData("Drop Level", dropLevel);
                         telemetry.update();
                     } else {
                         for (int scanner = 0; scanner < updatedRecognitions.size(); scanner++) {
                             if (updatedRecognitions.get(scanner).getLabel() == LABELS[0]) {
                                 if (updatedRecognitions.get(scanner).getLeft() <= 320) {
-                                    dropLevel = 1;
+                                    dropLevel = 2;
                                 }
                                 else if (updatedRecognitions.get(scanner).getLeft() >= 320) {
-                                    dropLevel = 2;
+                                    dropLevel = 3;
                                 }
                                 telemetry.addData("Left", updatedRecognitions.get(scanner).getLeft());
                                 telemetry.addData("Drop Level", dropLevel);
@@ -295,7 +295,7 @@ public class Blue_Warehouse extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                         setDR4BServo(DR4B_Rest);
                     })
-                    .lineToLinearHeading(new Pose2d(6.3, 55, 0)) //go to barrier
+                    .lineToLinearHeading(new Pose2d(6.3, 57, 0)) //go to barrier
 
                     .lineToLinearHeading(new Pose2d(29.3, 54.2, 0)) //go into warehouse
 

@@ -138,17 +138,17 @@ public class Blue_Duck extends LinearOpMode {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
                     if (updatedRecognitions.isEmpty()) {
-                        dropLevel = 3;
+                        dropLevel = 1;
                         telemetry.addData("Drop Level", dropLevel);
                         telemetry.update();
                     } else {
                         for (int scanner = 0; scanner < updatedRecognitions.size(); scanner++) {
                             if (updatedRecognitions.get(scanner).getLabel() == LABELS[0]) {
                                 if (updatedRecognitions.get(scanner).getLeft() <= 320) {
-                                    dropLevel = 1;
+                                    dropLevel = 2;
                                 }
                                 else if (updatedRecognitions.get(scanner).getLeft() >= 320) {
-                                    dropLevel = 2;
+                                    dropLevel = 3;
                                 }
                                 telemetry.addData("Left", updatedRecognitions.get(scanner).getLeft());
                                 telemetry.addData("Drop Level", dropLevel);
@@ -216,9 +216,9 @@ public class Blue_Duck extends LinearOpMode {
                    .build();
 
             drive.followTrajectorySequence(traj1);
-            duckSpinnerLeft.setPower(1);
+            duckSpinnerRight.setPower(1);
             sleep(duckSpinTime);
-            duckSpinnerLeft.setPower(0);
+            duckSpinnerRight.setPower(0);
 
             drive.followTrajectorySequence(traj2);
             if (dropLevel == 1) {
