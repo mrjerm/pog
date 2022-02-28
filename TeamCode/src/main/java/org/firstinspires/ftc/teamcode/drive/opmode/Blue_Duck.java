@@ -163,7 +163,7 @@ public class Blue_Duck extends LinearOpMode {
         if (opModeIsActive()){
             TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
                     //go to duck spinner
-                    .lineToLinearHeading(new Pose2d(-55, 48, Math.toRadians(180)),
+                    .lineToLinearHeading(new Pose2d(-56, 48, Math.toRadians(180)),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL/2, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .addTemporalMarker(0, () -> {
@@ -187,7 +187,7 @@ public class Blue_Duck extends LinearOpMode {
             TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
                     //go to shipping hub
                     .lineToLinearHeading(new Pose2d(-55, 13, Math.toRadians(180)))
-                    .lineToLinearHeading(new Pose2d(-25, 13, Math.toRadians(185)))
+                    .lineToLinearHeading(new Pose2d(-28, 13, Math.toRadians(185)))
                     .build();
 
            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
@@ -216,7 +216,7 @@ public class Blue_Duck extends LinearOpMode {
                    .build();
 
             drive.followTrajectorySequence(traj1);
-            duckSpinnerRight.setPower(1);
+            duckSpinnerRight.setPower(-1);
             sleep(duckSpinTime);
             duckSpinnerRight.setPower(0);
 

@@ -217,11 +217,11 @@ public class Blue_Warehouse extends LinearOpMode {
                     })
                     .lineToLinearHeading(new Pose2d(4.2, 47.8, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(4.2, 55.6, 0)) //align with barrier
+                    .lineToLinearHeading(new Pose2d(4.2, 55.6, -5)) //align with barrier
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(41, 55.6, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(45, 55.6, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
@@ -235,12 +235,12 @@ public class Blue_Warehouse extends LinearOpMode {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
                     .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
-                    .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
             TrajectorySequence traj2part2 = drive.trajectorySequenceBuilder(traj2.end())
-                    .waitSeconds(0.7)
+                    .waitSeconds(0.4)
 
                     .addDisplacementMarker(() -> {
                         if (dropLevel == 1){
@@ -266,7 +266,7 @@ public class Blue_Warehouse extends LinearOpMode {
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(45, 55.6, 0)) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(47, 55.6, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
@@ -280,12 +280,12 @@ public class Blue_Warehouse extends LinearOpMode {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
                     .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
-                    .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
             TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2part2.end())
-                    .waitSeconds(0.7)
+                    .waitSeconds(0.4)
                     .addDisplacementMarker(() -> {
                         setHorizontalSlide(0, 1);
                     })
