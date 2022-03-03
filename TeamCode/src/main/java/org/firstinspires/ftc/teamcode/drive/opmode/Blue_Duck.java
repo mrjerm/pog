@@ -126,7 +126,7 @@ public class Blue_Duck extends LinearOpMode {
         odometerYR.setPosition(odometerDownPos);
         odometerX.setPosition(odometerDownPos);
 
-        int duckSpinTime = 3000;
+        int duckSpinTime = 4000;
 
         telemetry.addData("Status", "Ready!");
         telemetry.update();
@@ -186,8 +186,8 @@ public class Blue_Duck extends LinearOpMode {
 
             TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
                     //go to shipping hub
-                    .lineToLinearHeading(new Pose2d(-55, 13, Math.toRadians(180)))
-                    .lineToLinearHeading(new Pose2d(-28, 13, Math.toRadians(185)))
+                    .lineToLinearHeading(new Pose2d(-55, 10.5, Math.toRadians(180)))
+                    .lineToLinearHeading(new Pose2d(-27, 10.5, Math.toRadians(185)))
                     .build();
 
            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())

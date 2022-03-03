@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import java.util.List;
 
 @Autonomous
-public class Red_ParkStorage extends LinearOpMode {
+public class ParkStorage extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "//sdcard//FIRST//tflitemodels//TSE.tflite";
     private static final String[] LABELS = {
             "TSE"
