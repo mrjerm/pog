@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import java.util.List;
 
 @Autonomous
-public class Blue_Warehouse extends LinearOpMode {
+public class Blue_WarehouseOriginal extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "//sdcard//FIRST//tflitemodels//TSE.tflite";
     private static final String[] LABELS = {
             "TSE"
@@ -237,7 +237,7 @@ public class Blue_Warehouse extends LinearOpMode {
             TrajectorySequence EF1C2 = drive.trajectorySequenceBuilder(EF1C1.end())
                     .lineToConstantHeading(new Vector2d(45+2+2, 55.6))
                     .build();
-            TrajectorySequence EF1P2 = drive.trajectorySequenceBuilder(missCount == 0 ? EF1P1.end() : missCount == 1 ? EF1C1.end() : EF1C2.end())
+            TrajectorySequence EF1P2 = drive.trajectorySequenceBuilder(EF1P1.end())
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
@@ -255,7 +255,7 @@ public class Blue_Warehouse extends LinearOpMode {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence EF2P1 = drive.trajectorySequenceBuilder(EF1P2.end())
+            TrajectorySequence EF2P1 = drive.trajectorySequenceBuilder(EF1P1.end())
                     .waitSeconds(0.4)
                     .addDisplacementMarker(() -> {
                         if (dropLevel == 1){
@@ -292,18 +292,18 @@ public class Blue_Warehouse extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(47+2+2, 55.6))
                     .build();
 
-            TrajectorySequence EF2P2 = drive.trajectorySequenceBuilder(missCount == 0 ? EF2P1.end() : missCount == 1 ? EF2C1.end() : EF2C2.end())
+            TrajectorySequence EF2P2 = drive.trajectorySequenceBuilder(EF2P1.end())
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
-                        intake.setPower(-1);
+                        intake.setPower(-0.8);
                     })
 
                     .lineToLinearHeading(new Pose2d(2.8, 55.6, Math.toRadians(-5))) //go out of warehouse
                     .addDisplacementMarker(() -> {
                         setDR4BServo(DR4B_High);
+                        intake.setPower(0);
                     })
                     .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                        intake.setPower(0);
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     })
                     .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
@@ -311,7 +311,7 @@ public class Blue_Warehouse extends LinearOpMode {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence park = drive.trajectorySequenceBuilder(EF2P2.end())
+            TrajectorySequence park = drive.trajectorySequenceBuilder(EF2P1.end())
                     .waitSeconds(0.4)
                     .addDisplacementMarker(() -> {
                         setHorizontalSlide(0, 1);
@@ -338,37 +338,8 @@ public class Blue_Warehouse extends LinearOpMode {
 
             drive.followTrajectorySequence(driveTraj);
             drive.followTrajectorySequence(EF1P1);
-            if (colorSensor.red() < 400){
-                missCount++;
-            }
-            if (missCount == 1){
-                drive.followTrajectorySequence(EF1C1);
-            }
-
-            if (colorSensor.red() < 400){
-                missCount++;
-            }
-            if (missCount == 2){
-                drive.followTrajectorySequence(EF1C2);
-            }
             drive.followTrajectorySequence(EF1P2);
             drive.followTrajectorySequence(EF2P1);
-
-
-            missCount = 0;
-            if (colorSensor.red() < 400){
-                missCount++;
-            }
-            if (missCount == 1){
-                drive.followTrajectorySequence(EF2C1);
-            }
-
-            if (colorSensor.red() < 400){
-                missCount++;
-            }
-            if (missCount == 2){
-                drive.followTrajectorySequence(EF2C2);
-            }
             drive.followTrajectorySequence(EF2P2);
             drive.followTrajectorySequence(park);
         }
