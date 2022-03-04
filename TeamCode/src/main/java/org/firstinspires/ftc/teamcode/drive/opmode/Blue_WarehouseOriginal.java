@@ -20,11 +20,9 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL3;
 import static org.firstinspires.ftc.teamcode.drive.Constants.odometerDownPos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -69,8 +67,6 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
     public Servo odometerYL;
     public Servo odometerYR;
     public Servo odometerX;
-
-    public ColorSensor colorSensor;
 
 
     @Override
@@ -130,10 +126,7 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
         odometerYR.setPosition(odometerDownPos);
         odometerX.setPosition(odometerDownPos);
 
-        colorSensor = hardwareMap.get(ColorSensor.class, "Color Sensor");
-
         int duckSpinTime = 3000;
-        int missCount = 0;
 
         telemetry.addData("Status", "Ready!");
         telemetry.update();
@@ -201,7 +194,7 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence EF1P1 = drive.trajectorySequenceBuilder(driveTraj.end())
+            TrajectorySequence traj2 = drive.trajectorySequenceBuilder(driveTraj.end())
                     .waitSeconds(0.7)
 
                     .addDisplacementMarker(() -> {
@@ -224,25 +217,16 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                     })
                     .lineToLinearHeading(new Pose2d(4.2, 47.8, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(4.2, 55.6, Math.toRadians(-5))) //align with barrier
+                    .lineToLinearHeading(new Pose2d(4.2, 55.6, -5)) //align with barrier
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(45, 55.6, Math.toRadians(-5))) //go into warehouse
-                    .build();
-            TrajectorySequence EF1C1 = drive.trajectorySequenceBuilder(EF1P1.end())
-                    .lineToConstantHeading(new Vector2d(45+2, 55.6))
-                    .build();
-
-            TrajectorySequence EF1C2 = drive.trajectorySequenceBuilder(EF1C1.end())
-                    .lineToConstantHeading(new Vector2d(45+2+2, 55.6))
-                    .build();
-            TrajectorySequence EF1P2 = drive.trajectorySequenceBuilder(EF1P1.end())
+                    .lineToLinearHeading(new Pose2d(45, 55.6, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(2.8, 55.6, Math.toRadians(-5))) //go out of warehouse
+                    .lineToLinearHeading(new Pose2d(2.8, 55.6, 0)) //go out of warehouse
                     .addDisplacementMarker(() -> {
                         setDR4BServo(DR4B_High);
                         intake.setPower(0);
@@ -255,8 +239,9 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence EF2P1 = drive.trajectorySequenceBuilder(EF1P1.end())
+            TrajectorySequence traj2part2 = drive.trajectorySequenceBuilder(traj2.end())
                     .waitSeconds(0.4)
+
                     .addDisplacementMarker(() -> {
                         if (dropLevel == 1){
                             setHorizontalSlide(horizontalSlideClear, 1);
@@ -275,30 +260,18 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                         setDR4BServo(DR4B_Rest);
                     })
-                    .lineToLinearHeading(new Pose2d(4.2, 47.8, Math.toRadians(-5))) //go to barrier
+                    .lineToLinearHeading(new Pose2d(4.2, 47.8, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(4.2, 55.6, Math.toRadians(-5))) //align with barrier
+                    .lineToLinearHeading(new Pose2d(4.2, 55.6, 0)) //align with barrier
                     .addDisplacementMarker(() -> {
                         intake.setPower(0.8);
                     })
-                    .lineToLinearHeading(new Pose2d(47, 55.6, Math.toRadians(-5))) //go into warehouse
-                    .build();
-
-            TrajectorySequence EF2C1 = drive.trajectorySequenceBuilder(EF1P1.end())
-                    .lineToConstantHeading(new Vector2d(47+2, 55.6))
-                    .build();
-
-            TrajectorySequence EF2C2 = drive.trajectorySequenceBuilder(EF1C1.end())
-                    .lineToConstantHeading(new Vector2d(47+2+2, 55.6))
-                    .build();
-
-            TrajectorySequence EF2P2 = drive.trajectorySequenceBuilder(EF2P1.end())
+                    .lineToLinearHeading(new Pose2d(47, 55.6, 0)) //go into warehouse
                     .addDisplacementMarker(() -> {
                         clawServo.setPosition(clawClosePos);
                         intake.setPower(-0.8);
                     })
-
-                    .lineToLinearHeading(new Pose2d(2.8, 55.6, Math.toRadians(-5))) //go out of warehouse
+                    .lineToLinearHeading(new Pose2d(2.8, 55.6, 0)) //go out of warehouse
                     .addDisplacementMarker(() -> {
                         setDR4BServo(DR4B_High);
                         intake.setPower(0);
@@ -311,7 +284,7 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                         clawServo.setPosition(clawOpenPos);
                     })
                     .build();
-            TrajectorySequence park = drive.trajectorySequenceBuilder(EF2P1.end())
+            TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2part2.end())
                     .waitSeconds(0.4)
                     .addDisplacementMarker(() -> {
                         setHorizontalSlide(0, 1);
@@ -322,26 +295,24 @@ public class Blue_WarehouseOriginal extends LinearOpMode {
                     .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                         setDR4BServo(DR4B_Rest);
                     })
-                    .lineToLinearHeading(new Pose2d(6.3, 57, Math.toRadians(-5))) //go to barrier
+                    .lineToLinearHeading(new Pose2d(6.3, 57, 0)) //go to barrier
 
-                    .lineToLinearHeading(new Pose2d(35, 54.2, Math.toRadians(-5))) //go into warehouse
+                    .lineToLinearHeading(new Pose2d(35, 54.2, 0)) //go into warehouse
 
-                    .lineToLinearHeading(new Pose2d(35, 31, Math.toRadians(-5)),
+                    .lineToLinearHeading(new Pose2d(35, 31, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
-                    .lineToLinearHeading(new Pose2d(50, 29, Math.toRadians(-5)),
+                    .lineToLinearHeading(new Pose2d(50, 29, 0),
                             SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
                     .build();
 
             drive.followTrajectorySequence(driveTraj);
-            drive.followTrajectorySequence(EF1P1);
-            drive.followTrajectorySequence(EF1P2);
-            drive.followTrajectorySequence(EF2P1);
-            drive.followTrajectorySequence(EF2P2);
-            drive.followTrajectorySequence(park);
+            drive.followTrajectorySequence(traj2);
+            drive.followTrajectorySequence(traj2part2);
+            drive.followTrajectorySequence(traj3);
         }
     }
 
