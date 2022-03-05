@@ -154,7 +154,7 @@ public class Blue_Duck extends LinearOpMode {
         TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
                 //go to shipping hub
                 .lineToLinearHeading(new Pose2d(-55, 15.5, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(-30, 15.5, Math.toRadians(185)))
+                .lineToLinearHeading(new Pose2d(-25, 15.5, Math.toRadians(185)))
                 .build();
 
         TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
