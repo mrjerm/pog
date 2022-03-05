@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.DR4B_Rest;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawClosePos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawOpenPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawRestPos;
+import static org.firstinspires.ftc.teamcode.drive.Constants.duckSpinTime;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideClear;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL1;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL2;
@@ -127,7 +128,6 @@ public class Auto_LM_Everything extends LinearOpMode {
         odometerYR.setPosition(odometerDownPos);
         odometerX.setPosition(odometerDownPos);
 
-        int duckSpinTime = 3000;
 
         telemetry.addData("Status", "Ready!");
         telemetry.update();

@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.odometerDownPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.odometerUpPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.salamiSpeed;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -23,6 +24,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //toes
+@Disabled
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 public class TeleOp_Solo extends OpMode {
 

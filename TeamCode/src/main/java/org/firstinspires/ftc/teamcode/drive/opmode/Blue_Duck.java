@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.DR4B_Rest;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawClosePos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawOpenPos;
 import static org.firstinspires.ftc.teamcode.drive.Constants.clawRestPos;
+import static org.firstinspires.ftc.teamcode.drive.Constants.duckSpinTime;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideClear;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL1;
 import static org.firstinspires.ftc.teamcode.drive.Constants.horizontalSlideL2;
@@ -126,10 +127,60 @@ public class Blue_Duck extends LinearOpMode {
         odometerYR.setPosition(odometerDownPos);
         odometerX.setPosition(odometerDownPos);
 
-        int duckSpinTime = 4000;
 
-        telemetry.addData("Status", "Ready!");
-        telemetry.update();
+        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
+                //go to duck spinner
+                .lineToLinearHeading(new Pose2d(-56, 48, Math.toRadians(180)),
+                        SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL/2, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .addTemporalMarker(0, () -> {
+                    if (dropLevel == 1 || dropLevel == 2) {
+                        setDR4BServo(DR4B_Mid);
+                    }
+                    if (dropLevel == 3){
+                        setDR4BServo(DR4B_High);
+                    }
+                })
+                .addTemporalMarker(0.8, () -> {
+                    setHorizontalSlide(horizontalSlideClear, 1);
+                })
+                .addTemporalMarker(1.2, () -> {
+                    if (dropLevel == 1) {
+                        setDR4BServo(DR4B_Low);
+                    }
+                })
+                .build();
+
+        TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
+                //go to shipping hub
+                .lineToLinearHeading(new Pose2d(-55, 15.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-30, 15.5, Math.toRadians(185)))
+                .build();
+
+        TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
+                .addDisplacementMarker(() -> {
+                    if (dropLevel == 1) {
+                        setHorizontalSlide(horizontalSlideClear, 1);
+                    }
+                    else {
+                        clawServo.setPosition(clawRestPos);
+                        setHorizontalSlide(0, 1);
+                    }
+                })
+                .addTemporalMarker(0.3, () -> {
+                    if (dropLevel == 1) {
+                        clawServo.setPosition(clawRestPos);
+                        setDR4BServo(DR4B_Mid);
+                    }
+                })
+                .addTemporalMarker(0.7, () -> {
+                    if (dropLevel == 1) {
+                        setHorizontalSlide(0, 1);
+                    }
+                })
+                .lineToLinearHeading(new Pose2d(-70, 8, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-70, 28, Math.toRadians(0)))
+                .build();
 
         while (!isStarted() && !isStopRequested()){
             if (tfod != null) {
@@ -161,59 +212,7 @@ public class Blue_Duck extends LinearOpMode {
 
         }
         if (opModeIsActive()){
-            TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
-                    //go to duck spinner
-                    .lineToLinearHeading(new Pose2d(-56, 48, Math.toRadians(180)),
-                            SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL/2, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                            SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .addTemporalMarker(0, () -> {
-                        if (dropLevel == 1 || dropLevel == 2) {
-                            setDR4BServo(DR4B_Mid);
-                        }
-                        if (dropLevel == 3){
-                            setDR4BServo(DR4B_High);
-                        }
-                    })
-                    .addTemporalMarker(0.8, () -> {
-                        setHorizontalSlide(horizontalSlideClear, 1);
-                    })
-                    .addTemporalMarker(1.2, () -> {
-                        if (dropLevel == 1) {
-                            setDR4BServo(DR4B_Low);
-                        }
-                    })
-                    .build();
 
-            TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
-                    //go to shipping hub
-                    .lineToLinearHeading(new Pose2d(-55, 15.5, Math.toRadians(180)))
-                    .lineToLinearHeading(new Pose2d(-30, 15.5, Math.toRadians(185)))
-                    .build();
-
-           TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
-                   .addDisplacementMarker(() -> {
-                       if (dropLevel == 1) {
-                           setHorizontalSlide(horizontalSlideClear, 1);
-                       }
-                       else {
-                           clawServo.setPosition(clawRestPos);
-                           setHorizontalSlide(0, 1);
-                       }
-                   })
-                   .addTemporalMarker(0.3, () -> {
-                       if (dropLevel == 1) {
-                           clawServo.setPosition(clawRestPos);
-                           setDR4BServo(DR4B_Mid);
-                       }
-                   })
-                   .addTemporalMarker(0.7, () -> {
-                       if (dropLevel == 1) {
-                           setHorizontalSlide(0, 1);
-                       }
-                   })
-                   .lineToLinearHeading(new Pose2d(-70, 8, Math.toRadians(0)))
-                   .lineToLinearHeading(new Pose2d(-70, 28, Math.toRadians(0)))
-                   .build();
 
             drive.followTrajectorySequence(traj1);
             duckSpinnerRight.setPower(-1);

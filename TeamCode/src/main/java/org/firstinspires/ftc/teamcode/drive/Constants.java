@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 public class Constants {
+    public static int duckSpinTime = 4000;
     public static double clawOpenPos = 0.28;
     public static double clawClosePos = 0.08;
     public static double clawRestPos = 0.15;
     public static double horizontalSpeedLimit = 0.8;
     public static double DR4B_Rest = 0;
     public static double DR4B_Low = 0.18;
-    public static double DR4B_Mid = 0.35;
+    public static double DR4B_Mid = 0.4;
     public static double DR4B_High = 0.7;
     public static double DR4B_Cap = 1;
     public static double DR4B_Clear = DR4B_Mid;
