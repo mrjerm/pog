@@ -22,6 +22,7 @@ import static org.firstinspires.ftc.teamcode.drive.Constants.odometerDownPos;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,8 +41,9 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import java.util.List;
 
+@Disabled
 @Autonomous
-public class Red_WarehouseSingle extends LinearOpMode {
+public class Blue_WarehouseSingle extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "//sdcard//FIRST//tflitemodels//TSE.tflite";
     private static final String[] LABELS = {
             "TSE"
@@ -90,7 +92,7 @@ public class Red_WarehouseSingle extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(7.8, -61.625, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(7.8, 61.625, Math.toRadians(-90));
 
         drive.setPoseEstimate(startPose);
 
@@ -157,7 +159,7 @@ public class Red_WarehouseSingle extends LinearOpMode {
                         setHorizontalSlide(horizontalSlideL3, 0.8);
                     }
                 })
-                .lineToLinearHeading(new Pose2d(-1.52, -26, Math.toRadians(313.9809))) //go to shipping hub
+                .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     clawServo.setPosition(clawOpenPos);
                 })
@@ -183,36 +185,36 @@ public class Red_WarehouseSingle extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     setDR4BServo(DR4B_Rest);
                 })
-                .lineToLinearHeading(new Pose2d(4.2, -47.8, 0)) //go to barrier
+                .lineToLinearHeading(new Pose2d(4.2, 47.8, 0)) //go to barrier
 
-                .lineToLinearHeading(new Pose2d(4.2, -56.6, Math.toRadians(3))) //align with barrier
+                .lineToLinearHeading(new Pose2d(4.2, 56.6, Math.toRadians(-3))) //align with barrier
                 .addDisplacementMarker(() -> {
                     intake.setPower(0.8);
                 })
-                .lineToConstantHeading(new Vector2d(43, -55.6)) //go into warehouse
+                .lineToConstantHeading(new Vector2d(43, 55.6)) //go into warehouse
                 .addDisplacementMarker(() -> {
                     clawServo.setPosition(clawClosePos);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    setDR4BServo(DR4B_High);
                     intake.setPower(-0.8);
+                    setDR4BServo(DR4B_High);
 
                 })
-                .lineToConstantHeading(new Vector2d(2.8, -55.6)) //go out of warehouse
+                .lineToConstantHeading(new Vector2d(2.8, 55)) //go out of warehouse
                 .addDisplacementMarker(() -> {
                     intake.setPower(0);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     setHorizontalSlide(horizontalSlideL3, 0.8);
                 })
-                .lineToLinearHeading(new Pose2d(-1.52, -26, Math.toRadians(313.9809))) //go to shipping hub
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                .lineToLinearHeading(new Pose2d(-1.52, 26, Math.toRadians(46.0191))) //go to shipping hub
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                     clawServo.setPosition(clawOpenPos);
                 })
                 .build();
 
         TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
-                .waitSeconds(0.7)
+                .waitSeconds(0.4)
                 .addDisplacementMarker(() -> {
                     setHorizontalSlide(0, 1);
                 })
@@ -222,15 +224,15 @@ public class Red_WarehouseSingle extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                     setDR4BServo(DR4B_Rest);
                 })
-                .lineToLinearHeading(new Pose2d(6.3, -55, 0)) //go to barrier
+                .lineToLinearHeading(new Pose2d(6.3, 57, 0)) //go to barrier
 
-                .lineToLinearHeading(new Pose2d(35, -54.2, 0)) //go into warehouse
+                .lineToLinearHeading(new Pose2d(35, 54.2, 0)) //go into warehouse
 
-                .lineToLinearHeading(new Pose2d(35, -31, 0),
+                .lineToLinearHeading(new Pose2d(35, 31, 0),
                         SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 0.5, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
-                .lineToLinearHeading(new Pose2d(50, -29, 0),
+                .lineToLinearHeading(new Pose2d(50, 29, 0),
                         SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL * 1.3, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
@@ -243,17 +245,17 @@ public class Red_WarehouseSingle extends LinearOpMode {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
                     if (updatedRecognitions.isEmpty()) {
-                        dropLevel = 3;
+                        dropLevel = 1;
                         telemetry.addData("Drop Level", dropLevel);
                         telemetry.update();
                     } else {
                         for (int scanner = 0; scanner < updatedRecognitions.size(); scanner++) {
                             if (updatedRecognitions.get(scanner).getLabel() == LABELS[0]) {
                                 if (updatedRecognitions.get(scanner).getLeft() <= 320) {
-                                    dropLevel = 1;
+                                    dropLevel = 2;
                                 }
                                 else if (updatedRecognitions.get(scanner).getLeft() >= 320) {
-                                    dropLevel = 2;
+                                    dropLevel = 3;
                                 }
                                 telemetry.addData("Left", updatedRecognitions.get(scanner).getLeft());
                                 telemetry.addData("Drop Level", dropLevel);
@@ -266,6 +268,7 @@ public class Red_WarehouseSingle extends LinearOpMode {
 
         }
         if (opModeIsActive()){
+
 
             drive.followTrajectorySequence(driveTraj);
             drive.followTrajectorySequence(traj2);
